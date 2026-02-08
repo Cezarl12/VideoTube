@@ -46,13 +46,29 @@ const userSchema = new Schema(
     refreshToken: {
       type: String,
     },
+    isEmailVerified: {
+      type: Boolean,
+      default: false,
+    },
+    emailVerificationToken: {
+      type: String,
+    },
+    emailVerificationExpity: {
+      type: Date,
+    },
+    forgotPasswordToken: {
+      type: String,
+    },
+    forgotPasswordExpiry: {
+      type: Date,
+    },
   },
   { timestamps: true }
 );
 
-userSchema.pre("save", async function (next) {
+userSchema.pre("save", async function () {
   if (!this.modified("password")) {
-    next();
+    return;
   }
   this.password = bcrypt.hash(this.password, 10);
   next();
@@ -62,20 +78,28 @@ userSchema.methods.isPasswordCorrect = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
-userSchema.methods.generateAccesToken = function () {
-  //short lived acces token
+userSchema.methods.generateAccesSToken = function () {
   return jwt.sign(
     { _id: this._id, email: this.email, userName: this.userName },
-    process.env.ACCES_TOKEN_SECRET,
-    { expiredIn: process.env.ACCES_TOKEN_EXPIRY }
+    process.env.ACCESS_TOKEN_SECRET,
+    { expiredIn: process.env.ACCESS_TOKEN_EXPIRY }
   );
 };
 
 userSchema.methods.generateRefreshToken = function () {
-  //short lived acces token
   return jwt.sign({ _id: this._id }, process.env.REFRESH_TOKEN_SECRET, {
     expiredIn: process.env.REFRESH_TOKEN_EXPIRY,
   });
+};
+
+userSchema.methods.generateTemporaryToken = function () {
+  const unHashedToken = crypto.randomBytes(20).toString("hex");
+  const hashedToken = crypto
+    .createHash("sha256")
+    .update(unHashedToken)
+    .digest("hex");
+  const tokenExpiry = Date.now() + 20 * 60 * 1000;
+  return { unHashedToken, hashedToken, tokenExpiry };
 };
 
 export const User = mongoose.model("User", userSchema);
