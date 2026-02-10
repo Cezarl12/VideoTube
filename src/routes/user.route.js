@@ -13,6 +13,8 @@ import {
   updateAccountDetails,
   updateUserAvatar,
   updateUserCoverImage,
+  getUserChanelProfile,
+  getWatchHistory,
 } from "../controllers/user.controller.js";
 import { upload } from "../middlewares/multer.js";
 import { validate } from "../middlewares/validator.js";
@@ -23,6 +25,7 @@ import {
   userResetForgotPasswordValidator,
   userChngePasswordValidator,
   updateUserDetailsValidator,
+  getUserChanelValidator,
 } from "../validators/authValidators.js";
 import { verifyJWT } from "../middlewares/auth.js";
 
@@ -52,6 +55,9 @@ router
 
 router.route("/refresh-token").post(refreshAccesToken);
 
+router
+  .route("/chanel/:userName")
+  .get(getUserChanelValidator(), validate, getUserChanelProfile);
 //authorized
 router.route("/logout").post(verifyJWT, logout);
 router.route("/current-user").get(verifyJWT, getCurentUser);
@@ -68,7 +74,7 @@ router
   );
 router
   .route("/update-details")
-  .post(
+  .patch(
     verifyJWT,
     updateUserDetailsValidator(),
     validate,
@@ -80,4 +86,6 @@ router
 router
   .route("/update-coverimage")
   .post(verifyJWT, upload.single("coverImage"), updateUserCoverImage);
+router.route("/watch-history").get(verifyJWT, getWatchHistory);
+
 export default router;

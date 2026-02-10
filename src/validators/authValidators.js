@@ -1,5 +1,6 @@
 import { body } from "express-validator";
 import { oneOf } from "express-validator";
+import { param } from "express-validator";
 
 const userRegisterValidation = () => {
   return [
@@ -75,6 +76,17 @@ const updateUserDetailsValidator = () => {
   ];
 };
 
+const getUserChanelValidator = () => {
+  return [
+    param("userName")
+      .trim()
+      .notEmpty()
+      .withMessage("Username is required")
+      .isLowercase()
+      .withMessage("Username must be in lower case"),
+  ];
+};
+
 export {
   userRegisterValidation,
   userLoginValidation,
@@ -82,4 +94,5 @@ export {
   userResetForgotPasswordValidator,
   userChngePasswordValidator,
   updateUserDetailsValidator,
+  getUserChanelValidator,
 };
