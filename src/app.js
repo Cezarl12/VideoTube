@@ -23,6 +23,7 @@ import commentRouter from "./routes/comment.route.js";
 import videoRouter from "./routes/video.route.js";
 import subscribtionRouter from "./routes/subscribtion.route.js";
 import likesRouter from "./routes/like.route.js";
+import playlistRouter from "./routes/playlist.route.js";
 
 app.use("/api/v1/healthcheck", healthCheckRouter);
 app.use("/api/v1/users", userRouter);
@@ -30,6 +31,7 @@ app.use("/api/v1/comments", commentRouter);
 app.use("/api/v1/videos", videoRouter);
 app.use("/api/v1/subscribtions", subscribtionRouter);
 app.use("/api/v1/likes", likesRouter);
+app.use("/api/v1/playlists", playlistRouter);
 app.use(errorHandler);
 
 export { app };

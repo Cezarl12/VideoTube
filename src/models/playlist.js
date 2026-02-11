@@ -16,9 +16,8 @@ const playlistSchema = new Schema(
       type: String,
       required: true,
     },
-    descriotion: {
+    description: {
       type: String,
-      required: true,
     },
   },
   { timestamps: true }
