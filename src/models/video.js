@@ -5,26 +5,26 @@ const videoSchema = new Schema(
   {
     owner: {
       type: Schema.Types.ObjectId,
-      ref: User,
+      ref: "User",
       required: true,
     },
     videoFile: {
       type: String,
-      reuqired: true,
+      reqired: true,
     },
-    thumbanil: {
+    thumbnail: {
       type: String,
-      reuqired: true,
+      reqired: true,
     },
     title: {
       type: String,
-      required: true,
+      reqired: true,
     },
     description: {
       type: String,
       required: true,
     },
-    viewes: {
+    views: {
       type: Number,
       default: 0,
     },

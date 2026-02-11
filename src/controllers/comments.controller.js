@@ -2,7 +2,6 @@ import { ApiResponse } from "../utils/apiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/apiError.js";
 import { Comment } from "../models/comment.js";
-import mongoose from "mongoose";
 
 const addComment = asyncHandler(async (req, res) => {
   const { videoId } = req.params;
