@@ -21,11 +21,13 @@ import userRouter from "./routes/user.route.js";
 import healthCheckRouter from "./routes/healthcheck.route.js";
 import commentRouter from "./routes/comment.route.js";
 import videoRouter from "./routes/video.route.js";
+import subscribtionRouter from "./routes/subscribtion.route.js";
 
 app.use("/api/v1/healthcheck", healthCheckRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/comments", commentRouter);
 app.use("/api/v1/videos", videoRouter);
+app.use("/api/v1/subscribtions", subscribtionRouter);
 app.use(errorHandler);
 
 export { app };
