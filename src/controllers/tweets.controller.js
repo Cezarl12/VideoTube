@@ -1,8 +1,8 @@
 import mongoose, { isValidObjectId } from "mongoose";
 import { Tweet } from "../models/tweet.js";
 import { User } from "../models/user.js";
-import { ApiError } from "../utils/ApiError.js";
-import { ApiResponse } from "../utils/ApiResponse.js";
+import { ApiError } from "../utils/apiError.js";
+import { ApiResponse } from "../utils/apiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
 const createTweet = asyncHandler(async (req, res) => {
@@ -45,8 +45,32 @@ const getUserTweets = asyncHandler(async (req, res) => {
       },
     },
     {
+      $lookup: {
+        from: "likes",
+        localField: "_id",
+        foreignField: "tweet",
+        as: "likes",
+      },
+    },
+    {
       $addFields: {
         owner: { $first: "$owner" },
+        likesCount: {
+          $size: "$likes",
+        },
+        // Opțional: verificăm dacă userul curent a dat like la acest tweet
+        isLiked: {
+          $cond: {
+            if: { $in: [req.user?._id, "$likes.likedBy"] },
+            then: true,
+            else: false,
+          },
+        },
+      },
+    },
+    {
+      $project: {
+        likes: 0,
       },
     },
     {

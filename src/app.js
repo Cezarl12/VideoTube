@@ -25,6 +25,7 @@ import subscribtionRouter from "./routes/subscribtion.route.js";
 import likesRouter from "./routes/like.route.js";
 import playlistRouter from "./routes/playlist.route.js";
 import tweetRouter from "./routes/tweet.route.js";
+import dashboardRouter from "./routes/dashboard.route.js";
 
 app.use("/api/v1/healthcheck", healthCheckRouter);
 app.use("/api/v1/users", userRouter);
@@ -34,6 +35,7 @@ app.use("/api/v1/subscribtions", subscribtionRouter);
 app.use("/api/v1/likes", likesRouter);
 app.use("/api/v1/playlists", playlistRouter);
 app.use("/api/v1/tweets", tweetRouter);
+app.use("/api/v1/dashboard", dashboardRouter);
 app.use(errorHandler);
 
 export { app };
